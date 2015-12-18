@@ -21,7 +21,7 @@ router.get('/:artist/:page', function(req, res, next) {
 				songLinks.push(aSong.children[0].attribs.href);
 			});
 		}, function(error){
-			res.send(error)
+			res.status(500).send(error)
 			return;
 		})
 		.then(function(){
@@ -56,7 +56,7 @@ router.get('/:artist/:page', function(req, res, next) {
 							songNode.producers.push($(this).text());
 						});
 					}, function(error){
-						res.send(error);
+						res.status(500).send(error);
 						return;
 					})
 					.then(function(){
@@ -133,7 +133,7 @@ router.get('/:artist/:page', function(req, res, next) {
 									sampleNode.ownLink = $("#sampleWrap_source .trackName").attr("href");
 
 								}, function(error){
-									res.send(error);
+									res.status(500).send(error);
 									return;
 								})
 								.then(function(){
@@ -155,7 +155,7 @@ router.get('/:artist/:page', function(req, res, next) {
 												})
 											}
 										}, function(error){
-											res.send(error);
+											res.status(500).send(error);
 										})
 										.then(function(){
 											async.map(sampleBranchArr, function(aBranch, callback){
@@ -202,13 +202,13 @@ router.get('/:artist/:page', function(req, res, next) {
 														outerBranch.imgLink = "http://www.whosampled.com" + $(".sampleTrackImage").first().find("img").attr("src");
 														outerBranch.songLink = $(".sampleVideoRight").first().find("iframe").attr("src");
 													}, function(error){
-														res.send(error);
+														res.status(500).send(error);
 														return;
 													})
 													.then(function(){
 														callback(null, outerBranch);
 													}, function(error){
-														res.send(error);
+														res.status(500).send(error);
 													})
 											}, function(err, results){
 												if(err) console.log(err);
@@ -216,25 +216,25 @@ router.get('/:artist/:page', function(req, res, next) {
 												callback(null, sampleNode);
 											})
 										}, function(error){
-											res.send(error);
+											res.status(500).send(error);
 										})
 								}, function(error){
-									res.send(error);
+									res.status(500).send(error);
 								})
 						}, function(err, results){
 							songNode.samplesCollection = results;
 							callback(null, songNode);
 						})
 					}, function(error){
-						res.send(error);
+						res.status(500).send(error);
 						return;
 					})
 			}, function(err, results){
 				if(err) console.log(error);
-				res.send(results);
+				res.status(200).send(results);
 			})
 		}, function(error){
-			res.send(error);
+			res.status(500).send(error);
 			return;
 		});
 });
