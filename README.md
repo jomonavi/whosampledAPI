@@ -1,7 +1,7 @@
 # whosampledAPI
 endpoint for json data about song samples 
 
-This project is a webscraper that collects music data from whosampled.com and then exposes an endpoint at https://samples-api.herokuapp.com/:page/:page
+This project is a webscraper that collects music data from whosampled.com and then exposes an endpoint at https://samples-api.herokuapp.com/:artist/:page
 for you to make consume through GET requests, with 2 additional route params for the name of the artist and a page number. It is useful 
 for anyone that wants to build an app or do some data visualization with song samples data. To consume, you can use an HTTP client like request.js to make http calls. 
 
