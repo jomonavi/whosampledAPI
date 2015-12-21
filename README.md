@@ -3,7 +3,7 @@ endpoint for json data about song samples
 
 This project is a webscraper that collects music data from whosampled.com and then exposes an endpoint at https://samples-api.herokuapp.com/:artist/:page
 for you to make consume through GET requests, with 2 additional route params for the name of the artist and a page number. It is useful 
-for anyone that wants to build an app or do some data visualization with song samples data. To consume, you can use an HTTP client like request.js to make http calls. 
+for anyone that wants to build an app or do some data visualization with song samples data. To consume, you can use an HTTP client like [request.js](https://github.com/request/request) to make http calls. 
 
 ### Example
 ```javascript
@@ -14,7 +14,7 @@ var options = {
   json: true
 }
 
-request.get(options, function(error, response, body){
+request(options, function(error, response, body){
   if (!error && response.statusCode == 200) {
     console.log(body) // do awesome stuff with the JSON response data
   }
