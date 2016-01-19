@@ -9,7 +9,6 @@ var scraper = require('../scraper-functions');
 router.get('/:artist/:page', function(req, res, next) {
 	console.log(req.params);
   	var artist = req.params.artist;
-	// var arr = [];
 	var page = req.params.page;
 	var url = "http://www.whosampled.com/" + artist + "/?sp=" + page;
 	var songLinks = [];
