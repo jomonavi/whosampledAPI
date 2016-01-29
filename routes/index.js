@@ -17,7 +17,7 @@ router.get('/:artist/:page', function(req, res, next) {
 			var $ = cheerio.load(html);
 			scraper.getRootArtistLinks($, songLinks);
 		}, function(error){
-			res.status(500).send(error);
+			return res.status(500).send(error);
 		})
 		.then(function(){
 			var url2 = "http://www.whosampled.com"
@@ -32,7 +32,7 @@ router.get('/:artist/:page', function(req, res, next) {
 						var $ = cheerio.load(html);
 						scraper.makeRootArtistNode($, finalPageLink, songNode);
 					}, function(error){
-						res.status(500).send(error);
+						return res.status(500).send(error);
 					})
 					.then(function(){
 						async.map(finalPageLink, function(aPageLink, callback){
@@ -48,7 +48,7 @@ router.get('/:artist/:page', function(req, res, next) {
 									var $ = cheerio.load(html);
 									scraper.makeSampleNode($, songNode, sampleNode);
 								}, function(error){
-									res.status(500).send(error)
+									return res.status(500).send(error)
 								})
 								.then(function(){
 									var sampleBranchArr = [];
@@ -57,7 +57,7 @@ router.get('/:artist/:page', function(req, res, next) {
 											var $ = cheerio.load(html);
 											scraper.getOuterLinkLeaf($, sampleBranchArr);
 										}, function(error){
-											res.status(500).send(error);
+											return res.status(500).send(error);
 										})
 										.then(function(){
 											async.map(sampleBranchArr, function(aBranch, callback){
@@ -72,40 +72,44 @@ router.get('/:artist/:page', function(req, res, next) {
 														var $ = cheerio.load(html);
 														scraper.makeOuterLeafNode($, outerBranch);
 													}, function(error){
-														res.status(500).send(error);
-														return;
+														return res.status(500).send(error);
 													})
 													.then(function(){
 														callback(null, outerBranch);
 													}, function(error){
-														res.status(500).send(error);
+														return res.status(500).send(error);
 													})
 											}, function(err, results){
-												if(err) console.log(err);
+												if(err) {
+													console.log(err);
+													return err;
+												}
 												sampleNode.otherSamplers = results;
 												callback(null, sampleNode);
 											})
 										}, function(error){
-											res.status(500).send(error);
+											return res.status(500).send(error);
 										})
 								}, function(error){
-									res.status(500).send(error);
+									return res.status(500).send(error);
 								})
 						}, function(err, results){
 							songNode.samplesCollection = results;
 							callback(null, songNode);
 						})
 					}, function(error){
-						res.status(500).send(error);
-						return;
+						return res.status(500).send(error);
 					})
 			}, function(err, results){
-				if(err) console.log(error);
+				if(err) {
+					console.log(err);
+					return err
+				}
 				res.status(200).send(results);
+				return;
 			})
 		}, function(error){
-			res.status(500).send(error);
-			return;
+			return res.status(500).send(error);
 		});
 });
 
