@@ -105,8 +105,7 @@ router.get('/:artist/:page', function(req, res, next) {
 					console.log(err);
 					return err
 				}
-				res.status(200).send(results);
-				return;
+				return res.status(200).send(results);
 			})
 		}, function(error){
 			return res.status(500).send(error);
