@@ -4,6 +4,7 @@ var rp = require('request-promise')
 var async = require('async');
 var router = express.Router();
 var scraper = require('../scraper-functions');
+var proxy = process.env.QUOTAGUARD_URL;
 
 /* GET home page. */
 router.get('/:artist/:page', function(req, res, next) {
@@ -11,8 +12,16 @@ router.get('/:artist/:page', function(req, res, next) {
   	var artist = req.params.artist;
 	var page = req.params.page;
 	var url = "http://www.whosampled.com/" + artist + "/?sp=" + page;
+	var option = {
+		method: 'GET',
+		proxy: proxy,
+		uri: url,
+		headers: {
+	        'User-Agent': 'node.js'
+	    }
+	}
 	var songLinks = [];
-	rp(url)
+	rp(option)
 		.then(function(html){
 			var $ = cheerio.load(html);
 			scraper.getRootArtistLinks($, songLinks);
@@ -27,7 +36,15 @@ router.get('/:artist/:page', function(req, res, next) {
 					samplesCollection: [],
 				};
 				var finalPageLink = [];
-				rp(url2 + aSongLink)
+				var option = {
+					method: 'GET',
+					proxy: proxy,
+					uri: url2 + aSongLink,
+					headers: {
+				        'User-Agent': 'node.js'
+				    }
+				}
+				rp(option)
 					.then(function(html){
 						var $ = cheerio.load(html);
 						scraper.makeRootArtistNode($, finalPageLink, songNode);
@@ -43,7 +60,16 @@ router.get('/:artist/:page', function(req, res, next) {
 								otherSamplers: []
 							};
 
-							rp(url2 + aPageLink)
+							var option = {
+								method: 'GET',
+								proxy: proxy,
+								uri: url2 + aPageLink,
+								headers: {
+									'User-Agent': 'node.js'
+								}
+							}
+
+							rp(option)
 								.then(function(html){
 									var $ = cheerio.load(html);
 									scraper.makeSampleNode($, songNode, sampleNode);
@@ -51,8 +77,16 @@ router.get('/:artist/:page', function(req, res, next) {
 									return res.status(500).send(error)
 								})
 								.then(function(){
+									var option = {
+										method: 'GET',
+										proxy: proxy,
+										uri: url2 + sampleNode.ownLink,
+										headers: {
+											'User-Agent': 'node.js'
+										}
+									}
 									var sampleBranchArr = [];
-									rp(url2 + sampleNode.ownLink)
+									rp(option)
 										.then(function(html){
 											var $ = cheerio.load(html);
 											scraper.getOuterLinkLeaf($, sampleBranchArr);
@@ -66,8 +100,16 @@ router.get('/:artist/:page', function(req, res, next) {
 													sampleElement: {},
 													sampleAppearance: {},
 												};
+												var option = {
+													method: 'GET',
+													proxy: proxy,
+													uri: url2 + aBranch,
+													headers: {
+														'User-Agent': 'node.js'
+													}
+												}
 
-												rp(url2 + aBranch)
+												rp(option)
 													.then(function(html){
 														var $ = cheerio.load(html);
 														scraper.makeOuterLeafNode($, outerBranch);
