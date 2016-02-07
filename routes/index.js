@@ -38,7 +38,7 @@ router.get('/:artist/:page', function(req, res, next) {
 				var finalPageLink = [];
 				var option = {
 					method: 'GET',
-					proxy: proxy,
+					// proxy: proxy,
 					uri: url2 + aSongLink,
 					headers: {
 				        'User-Agent': 'node.js'
@@ -62,7 +62,7 @@ router.get('/:artist/:page', function(req, res, next) {
 
 							var option = {
 								method: 'GET',
-								proxy: proxy,
+								// proxy: proxy,
 								uri: url2 + aPageLink,
 								headers: {
 									'User-Agent': 'node.js'
@@ -79,7 +79,7 @@ router.get('/:artist/:page', function(req, res, next) {
 								.then(function(){
 									var option = {
 										method: 'GET',
-										proxy: proxy,
+										// proxy: proxy,
 										uri: url2 + sampleNode.ownLink,
 										headers: {
 											'User-Agent': 'node.js'
@@ -102,7 +102,7 @@ router.get('/:artist/:page', function(req, res, next) {
 												};
 												var option = {
 													method: 'GET',
-													proxy: proxy,
+													// proxy: proxy,
 													uri: url2 + aBranch,
 													headers: {
 														'User-Agent': 'node.js'
