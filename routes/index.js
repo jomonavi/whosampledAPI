@@ -14,7 +14,7 @@ router.get('/:artist/:page', function(req, res, next) {
 	var url = "http://www.whosampled.com/" + artist + "/?sp=" + page;
 	var option = {
 		method: 'GET',
-		proxy: proxy,
+		// proxy: proxy,
 		uri: url,
 		headers: {
 	        'User-Agent': 'node.js'
