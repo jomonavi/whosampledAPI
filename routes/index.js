@@ -1,10 +1,10 @@
-var express = require('express');
-var cheerio = require('cheerio')
-var rp = require('request-promise')
-var async = require('async');
-var router = express.Router();
-var scraper = require('../scraper-functions');
-var proxy = process.env.QUOTAGUARD_URL;
+var express = require('express'),
+	cheerio = require('cheerio'),
+	rp = require('request-promise'),
+	async = require('async'),
+	router = express.Router(),
+	scraper = require('../scraper-functions'),
+	proxy = process.env.QUOTAGUARD_URL;
 
 /* GET home page. */
 router.get('/:artist/:page', function(req, res, next) {
